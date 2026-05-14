@@ -1,1 +1,34 @@
 # Link-Shortener
+A simple link shortener in multiple languages.
+
+
+## Languages/Frameworks
+For the backend we will be using the following frameworks:
+- Python: Fastapi
+- Javascript: Fastify
+- Csharp: ASP.NET Core
+
+
+## API
+Each API will be built with the following routes
+- GET / - Home page with text input for link shortening 
+- GET /{slug} - Returns the original URL from database and redirects to it with status code 302, OR directs to 404 page
+- GET /404 - Link not found page
+- POST /shorten - Request Body: JSON{ url: 'https://ip.me' } returns JSON{ slug: 'ef21Ac-21c5dd' }. 
+- GET /info/{slug} - Returns metadata about a shortened link such as original url JSON{url: 'https://ip.me', createdAt: unixTimestamp, clicks: 12 }
+
+
+## Database
+For the database we will be using SQlite with the following schema
+
+| Column | Type | Constraints |
+|--------|------|-------------|
+| id | INTEGER | PRIMARY KEY AUTOINCREMENT |
+| url | TEXT | NOT NULL |
+| slug | TEXT | NOT NULL UNIQUE |
+| createdAt | INTEGER | DEFAULT (strftime('%s', 'now')) |
+| clicks | INTEGER | DEFAULT 0 |
+
+
+## Frontend
+[ ] TODO: Decide frontend technology
