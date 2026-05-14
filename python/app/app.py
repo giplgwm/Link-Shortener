@@ -1,7 +1,9 @@
-from fastapi import FastAPI, HTTPException
-from fastapi.responses import RedirectResponse
-from http import HTTPStatus
-import sqlite3
+from fastapi import FastAPI, APIRouter
+
+from app.api import APIrouter
+
+router = APIRouter()
+router.include_router(APIrouter)
 
 app = FastAPI()
 
