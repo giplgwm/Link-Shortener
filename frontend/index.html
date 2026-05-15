@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>snip — link shortener</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #0a0a0a;
+            --fg: #e8e4de;
+            --muted: #6b6560;
+            --accent: #ff6b35;
+            --surface: #141414;
+            --border: #2a2a2a;
+        }
+
+        body {
+            font-family: 'DM Mono', monospace;
+            background: var(--bg);
+            color: var(--fg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .grain {
+            position: fixed;
+            inset: 0;
+            opacity: 0.03;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        .container {
+            text-align: center;
+            animation: fadeUp 0.8s ease-out;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 5rem;
+            font-weight: 400;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.25rem;
+        }
+
+        h1 span {
+            color: var(--accent);
+        }
+
+        .tagline {
+            color: var(--muted);
+            font-size: 0.85rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 3rem;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 0;
+            max-width: 520px;
+            margin: 0 auto;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .input-group:focus-within {
+            border-color: var(--accent);
+        }
+
+        input {
+            flex: 1;
+            background: var(--surface);
+            border: none;
+            padding: 1rem 1.25rem;
+            color: var(--fg);
+            font-family: 'DM Mono', monospace;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        input::placeholder {
+            color: var(--muted);
+        }
+
+        button {
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            padding: 1rem 1.75rem;
+            font-family: 'DM Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #ff8255;
+        }
+
+        .result {
+            margin-top: 2rem;
+            min-height: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .result a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 1.1rem;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.2s;
+        }
+
+        .result a:hover {
+            border-bottom-color: var(--accent);
+        }
+
+        .result .error {
+            color: #cc4444;
+            font-size: 0.85rem;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 2rem;
+            color: var(--muted);
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <div class="grain"></div>
+    <div class="container">
+        <h1>snip<span>.</span></h1>
+        <p class="tagline">shorten your links</p>
+        <div class="input-group">
+            <input type="url" id="url" placeholder="paste a url..." autocomplete="off" />
+            <button id="shorten">snip it</button>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+    <footer>a link shortener</footer>
+
+    <script>
+        const input = document.getElementById('url');
+        const btn = document.getElementById('shorten');
+        const result = document.getElementById('result');
+
+        btn.addEventListener('click', async () => {
+            const url = input.value.trim();
+            if (!url) return;
+
+            result.innerHTML = '';
+            try {
+                const res = await fetch('/shorten', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ link: url })
+                });
+                if (!res.ok) {
+                    const err = await res.json();
+                    result.innerHTML = `<span class="error">${err.detail || 'Something went wrong'}</span>`;
+                    return;
+                }
+                const data = await res.json();
+                const short = `${window.location.origin}/${data.slug}`;
+                result.innerHTML = `<a href="${short}" target="_blank">${short}</a>`;
+            } catch (e) {
+                result.innerHTML = `<span class="error">Could not reach server</span>`;
+            }
+        });
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') btn.click();
+        });
+    </script>
+</body>
+</html>
