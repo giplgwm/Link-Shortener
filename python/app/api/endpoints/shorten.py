@@ -9,7 +9,7 @@ router = APIRouter()
 @router.post("/shorten", status_code=201)
 async def shorten(link: LinkFromUser, request: Request):
     url = str(link.url)
-    forwarded = request.headers.get("X-Forwarded-For")
+    forwarded = request.headers.get("X-Forwarded-For", "")
     created_by = forwarded.split(",")[0] if forwarded else request.client.host
     
     inserted = False
