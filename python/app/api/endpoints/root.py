@@ -4,4 +4,5 @@ router = APIRouter()
 
 @router.get("/")
 async def root():
-    return { 'hello': 'world'}
+    # Return home page
+    pass
