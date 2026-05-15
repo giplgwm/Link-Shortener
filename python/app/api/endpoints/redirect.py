@@ -9,6 +9,7 @@ router = APIRouter()
 async def redirect(slug: str):
     original_url = queries.get_link(slug=slug)
     if original_url:
+        queries.increment_clicks(slug=slug)
         return RedirectResponse(original_url['url'], HTTPStatus.FOUND)
     else:
         return RedirectResponse("/404", HTTPStatus.FOUND)
