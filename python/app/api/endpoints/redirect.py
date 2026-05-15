@@ -3,7 +3,7 @@ from fastapi import APIRouter
 router = APIRouter()
 
 @router.get("/{slug}")
-async def redirect(slug: Slug):
+async def redirect(slug: str):
     # Redirect to original url
     pass
     # if slug in db:
