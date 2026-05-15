@@ -1,6 +1,6 @@
 from pydantic import BaseModel
 
 class LinkToUser(BaseModel):
-    url: str
+    link: str
     slug: str
     
