@@ -1,4 +1,6 @@
+from http import HTTPStatus
 from fastapi import APIRouter
+from fastapi.responses import RedirectResponse
 
 router = APIRouter()
 
@@ -7,6 +9,7 @@ async def redirect(slug: str):
     # Redirect to original url
     pass
     # if slug in db:
-        return RedirectResponse(original_url, HTTPStatus.TEMPORARY_REDIRECT)
+    original_url = None
+    return RedirectResponse(original_url, HTTPStatus.TEMPORARY_REDIRECT)
     # if slug not in db:
-        return RedirectResponse("/404", HTTPStatus.TEMPORARY_REDIRECT)
+    return RedirectResponse("/404", HTTPStatus.TEMPORARY_REDIRECT)
