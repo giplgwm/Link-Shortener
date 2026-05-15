@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, HttpUrl
 
 class LinkFromUser(BaseModel):
-    link: str
+    link: HttpUrl
