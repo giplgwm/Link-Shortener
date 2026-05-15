@@ -18,6 +18,7 @@ async def shorten(link: LinkFromUser, request: Request):
         try:
             print(f"inserting ${url} into db with slug ${slug}. Added by IP {created_by}")
             queries.insert_link(url=url, slug=slug, created_by=created_by)
+            break
         except IntegrityError:
             continue
     
