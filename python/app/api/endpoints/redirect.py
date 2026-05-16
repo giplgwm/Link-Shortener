@@ -12,4 +12,4 @@ async def redirect(slug: str):
         queries.increment_clicks(slug=slug)
         return RedirectResponse(original_url['url'], HTTPStatus.FOUND)
     else:
-        return RedirectResponse("/404", HTTPStatus.FOUND)
+        return RedirectResponse("/404", HTTPStatus.NOT_FOUND)
