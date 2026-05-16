@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 — snip</title>
+    <title>404 — Link Shortener</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Instrument+Serif&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --bg: #0a0a0a;
-            --fg: #e8e4de;
-            --muted: #6b6560;
-            --accent: #ff6b35;
-            --surface: #141414;
+            --bg: #0e1117;
+            --fg: #d4d8e0;
+            --muted: #5c6370;
+            --accent: #5eafd6;
+            --surface: #161b22;
+            --border: #2a3040;
         }
 
         body {
@@ -84,16 +85,16 @@
             border-bottom-color: var(--accent);
         }
 
-        .scissors {
+        .icon {
             font-size: 2.5rem;
             margin-bottom: 1.5rem;
             opacity: 0.4;
-            animation: snip 2s ease-in-out infinite;
+            animation: drift 2s ease-in-out infinite;
         }
 
-        @keyframes snip {
-            0%, 100% { transform: rotate(0deg); }
-            50% { transform: rotate(-15deg); }
+        @keyframes drift {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
         }
 
         footer {
@@ -109,11 +110,10 @@
 <body>
     <div class="grain"></div>
     <div class="container">
-        <div class="scissors">✂</div>
+        <div class="icon">🔗</div>
         <div class="code">4<span>0</span>4</div>
         <p class="message">this link doesn't exist</p>
-        <a href="/">← back to snip</a>
+        <a href="/">← back to home</a>
     </div>
-    <footer>a link shortener</footer>
 </body>
 </html>
