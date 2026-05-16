@@ -6,6 +6,6 @@
 - nanoid - generates slugs
 
 ## File Structure:
-/api/endpoints - routes
-/db/queries - sql queries for pigsql
-/schemas - Pydantic models for input/output validation
+- /api/endpoints - routes
+- /db/queries - sql queries for pigsql
+- /schemas - Pydantic models for input/output validation
