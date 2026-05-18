@@ -10,7 +10,7 @@
 
 ## Libraries used
 - fastapi - webapi framework
-- pigsql - handles parameterized sql statements without a full ORM
+- pugsql - handles parameterized sql statements without a full ORM
 - nanoid - generates slugs
 
 ## File Structure:
